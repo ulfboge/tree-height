@@ -223,6 +223,18 @@
                     <tr>\
                         <td colspan="2">' + (feature.properties['image'] !== null ? '<img src="images/' + String(feature.properties['image']).replace(/[\\\/:]/g, '_').trim() + '">' : '') + '</td>\
                     </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['auxiliary_storage_labeling_lineanchorpercent'] !== null ? autolinker.link(feature.properties['auxiliary_storage_labeling_lineanchorpercent'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['auxiliary_storage_labeling_lineanchorclipping'] !== null ? autolinker.link(feature.properties['auxiliary_storage_labeling_lineanchorclipping'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['auxiliary_storage_labeling_lineanchortype'] !== null ? autolinker.link(feature.properties['auxiliary_storage_labeling_lineanchortype'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['auxiliary_storage_labeling_lineanchortextpoint'] !== null ? autolinker.link(feature.properties['auxiliary_storage_labeling_lineanchortextpoint'].toLocaleString()) : '') + '</td>\
+                    </tr>\
                 </table>';
             var content = removeEmptyRowsFromPopupContent(popupContent, feature);
 			layer.on('popupopen', function(e) {
@@ -276,6 +288,42 @@
         bounds_group.addLayer(layer_Forest_Control_Areas_3);
         map.addLayer(layer_Forest_Control_Areas_3);
         setBounds();
+        var i = 0;
+        layer_Area01_1.eachLayer(function(layer) {
+            var context = {
+                feature: layer.feature,
+                variables: {}
+            };
+            layer.bindTooltip((layer.feature.properties['name'] !== null?String('<div style="color: #ffffff; font-size: 10pt; font-family: \'Open Sans\', sans-serif;">' + layer.feature.properties['name']) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css_Area01_1'});
+            labels.push(layer);
+            totalMarkers += 1;
+              layer.added = true;
+              addLabel(layer, i);
+              i++;
+        });
+        var i = 0;
+        layer_Area02_2.eachLayer(function(layer) {
+            var context = {
+                feature: layer.feature,
+                variables: {}
+            };
+            layer.bindTooltip((layer.feature.properties['name'] !== null?String('<div style="color: #ffffff; font-size: 10pt; font-family: \'Open Sans\', sans-serif;">' + layer.feature.properties['name']) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css_Area02_2'});
+            labels.push(layer);
+            totalMarkers += 1;
+              layer.added = true;
+              addLabel(layer, i);
+              i++;
+        });
+        resetLabels([layer_Area01_1,layer_Area02_2,layer_Forest_Control_Areas_3]);
+        map.on("zoomend", function(){
+            resetLabels([layer_Area01_1,layer_Area02_2,layer_Forest_Control_Areas_3]);
+        });
+        map.on("layeradd", function(){
+            resetLabels([layer_Area01_1,layer_Area02_2,layer_Forest_Control_Areas_3]);
+        });
+        map.on("layerremove", function(){
+            resetLabels([layer_Area01_1,layer_Area02_2,layer_Forest_Control_Areas_3]);
+        });
         </script>
     </body>
 </html>
